@@ -1,0 +1,103 @@
+<!DCOTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" type="text/css" href="" media="all" />
+		<script type="text/javascript" src="../source/jquery-1.8.3.min.js"></script>
+		<style>
+			#atomic-container{
+				width:240px;
+				height:240px;
+				overflow: visible;
+				background:url(../source/pinting.jpg) center;
+				/*背景图自适应div大小：background-size:x轴显示的比例 Y轴显示的比例;*/
+				filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(src=  '../source/pinting.jpg' ,sizingMethod='scale')";
+				-moz-background-size:100% 100%;
+				background-size:auto 100%;
+				/*Chrome、Firefox、Opera可以单独调整XY的值，IE不可以···*/
+				outline:#000 6px solid;
+			}
+			span{
+				display:block;
+				width:60px;
+				height:60px;
+				float:left;
+				outline:#000 3px solid;
+				color:white;
+				/*border:#000 3px solid;*/
+				background:rgba(20,20,20,0.95);
+			}
+			.opacity{
+				background: rgba(0,0,0,0);
+				-moz-transition: background 2s; /* Firefox 4 */
+				-webkit-transition: background 2s; /* Safari and Chrome */
+				-o-transition: background 2s; /* Opera */
+				transition: background 2s;
+			}
+		</style>
+		<script type="text/javascript">
+		var len = 4;
+		    // var time = 2*len;
+	    var time = 2*len;
+	    // alert(len);
+		function atomicScreen(time, len) {
+			if (time > 1) {
+				var arr = new Array(len+1);
+			    var $eles = $("span");
+			    var n = 0;
+			    // alert(eles);
+			    // eles[8].innerText=34;
+			    // 将获取的span数组赋给arr，形成一个二维数组 0未赋值
+			    for (var i=1; i<len+1; i++) {
+			    	arr[i] = new Array(len);
+			    	for (var j = 1; j < len + 1; j++){
+			  		    arr[i][j] = $eles[n];
+			  		    n++;
+			  	    }
+			    }
+			    // alert("i am on function!!");
+			    var optArr = [];
+			    var tmpPoint = {};
+			    var x, y;
+			    // 运用逻辑判断 和 二维象限函数 求出每次改变样式的坐标
+			    for(x=1 ; x<=4; x++) {
+			    	y=time-x;
+			    	if(y <= 4 & y > 0) {
+					    optArr.push(x);
+					    optArr.push(y);
+			    	}  	
+			    }
+			    console.log(optArr);
+			    var optLen = optArr.length;
+			    for (var i = 0; i < optLen; i += 2) {
+			    	// 样式改变的操作				    
+				    arr[optArr[i]][optArr[i+1]].style.background="none";
+				    console.log();
+			    }
+			    time--;
+			    // alert(time);
+			    console.log('funA...');
+			    setTimeout('atomicScreen(time,len)', 1000);
+			}	    
+		}
+
+		$(document).ready(function($){
+			$("#powerOn").click( function() { atomicScreen(time, len);
+			});
+		}
+		);
+		</script>
+		
+	</head>
+
+	<body>
+		<div id="atomic-container">
+			<span></span><span></span><span></span><span></span>
+			<span></span><span></span><span></span><span></span>
+			<span></span><span></span><span></span><span></span>
+			<span></span><span></span><span></span><span></span>
+		</div>
+		<button id="powerOn">通电！</button>
+	</body>
+
+</html> 
